@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: poi
-  namespace: poi
+  # namespace: poi
 spec:
   selector:
     matchLabels:
