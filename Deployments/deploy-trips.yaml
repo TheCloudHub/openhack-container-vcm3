@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+  namespace: trips
+spec:
+  selector:
+    matchLabels:
+      app: trips-app
+  template:
+    metadata:
+      labels:
+        app: trips-app
+    spec:
+      containers:
+      - name: trips-app
+        image: "registryezg2364.azurecr.io/trips:latest"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: SQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_USER
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_PASSWORD
+          - name: SQL_DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_DBNAME
+          - name: database_url
+            valueFrom:
+              configMapKeyRef:
+                name: node-configmap
+                key: database_url
+
+              

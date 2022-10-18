@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile
+  namespace: userprofile
+spec:
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: "registryezg2364.azurecr.io/userprofile:latest"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: SQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_USER
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_PASSWORD
+          - name: SQL_DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: sql-db-secret
+                key: SQL_DBNAME
+          - name: database_url
+            valueFrom:
+              configMapKeyRef:
+                name: node-configmap
+                key: database_url
+
+              

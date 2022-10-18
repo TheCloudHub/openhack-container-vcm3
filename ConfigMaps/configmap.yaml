@@ -1,0 +1,9 @@
+# Creating a Configmap resource to store runtime Configurations 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-configmap
+  namespace: userprofile
+data:
+  database_url: "https://sqlserverezg2364.database.windows.net"
+  port: "80"
