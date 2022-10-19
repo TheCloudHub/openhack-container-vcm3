@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tripviewer
-  namespace: tripviewer
 spec:
   selector:
     matchLabels:
@@ -42,5 +41,25 @@ spec:
               configMapKeyRef:
                 name: node-configmap
                 key: database_url
-
-              
+          - name: USERPROFILE_API_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: node-configmap
+                key: user_profile_api
+          - name: TRIPS_API_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: node-configmap
+                key: trip_service_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: tripviewer-app
+  ports:
+  - port: 80
+    targetPort: 80

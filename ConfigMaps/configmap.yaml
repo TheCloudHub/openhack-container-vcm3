@@ -3,7 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: node-configmap
-  namespace: userprofile
 data:
   database_url: "https://sqlserverezg2364.database.windows.net"
   port: "80"
+  user_profile_api: "http://10.0.254.202:80"
+  trip_service_url: "http://10.0.168.7:80"

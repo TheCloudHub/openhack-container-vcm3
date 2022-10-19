@@ -2,18 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userprofile
-  namespace: userprofile
 spec:
   selector:
     matchLabels:
-      app: node-app
+      app: user-profile-app
   template:
     metadata:
       labels:
-        app: node-app
+        app: user-profile-app
     spec:
       containers:
-      - name: node-app
+      - name: user-profile-app
         image: "registryezg2364.azurecr.io/userprofile:latest"
         resources:
           limits:
@@ -43,4 +42,16 @@ spec:
                 name: node-configmap
                 key: database_url
 
-              
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: user-profile-svc
+  spec:
+    type: ClusterIP
+    selector:
+      app: user-profile-app
+    ports:
+    - port: 80
+      targetPort: 80
+     

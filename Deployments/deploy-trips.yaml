@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: trips
-  namespace: trips
 spec:
   selector:
     matchLabels:
@@ -20,7 +19,7 @@ spec:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         env:
           - name: SQL_USER
             valueFrom:
@@ -44,3 +43,14 @@ spec:
                 key: database_url
 
               
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trip-service
+spec:
+  selector:
+    app: trips-app
+  ports:
+  - port: 80
+    targetPort: 80
